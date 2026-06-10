@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hari Chatbot</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            width: 700px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        input {
+            width: 70%;
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .answer {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #555;
+            text-align: left;
+        }
+
+        .speak-btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Hari Chatbot</h1>
+
+    <p>How can I help you?</p>
+
+    <form method="POST">
+        <input type="text" name="question" placeholder="Ask anything" required>
+        <button type="submit">Ask</button>
+    </form>
+
+    {% if answer %}
+    <div class="answer">
+        <strong>Answer:</strong><br><br>
+
+        <span id="botAnswer">{{ answer }}</span>
+
+        <br><br>
+
+        <button class="speak-btn" onclick="speakAnswer()">
+    🔊 Listen
+</button>
+    </div>
+    {% endif %}
+
+    <script>
+function speakAnswer() {
+
+    // Stop any speech currently playing
+    window.speechSynthesis.cancel();
+
+    let text = document.getElementById("botAnswer").innerText;
+
+    let speech = new SpeechSynthesisUtterance(text);
+
+    speech.rate = 1;
+    speech.pitch = 1;
+    speech.volume = 1;
+
+    window.speechSynthesis.speak(speech);
+}
+</script>
+</body></html>
