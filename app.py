@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 
-responses = {S
+responses = {
 
 
 "what is software testing": "Software testing is the process of checking whether software works correctly. It helps find errors and improve quality. Testing ensures the application meets user requirements. Real-World Example: Testing an online shopping website before customers use it.",
