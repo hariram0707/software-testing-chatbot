@@ -1,48 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hari Chatbot</title>
-    <!DOCTYPE html>
+    <title>Chatbot</title>
 
-<html>
-<head>
-    <title>Hari Chatbot</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            width: 700px;
+            margin: 50px auto;
+            text-align: center;
+        }
 
-```
-<style>
-    body {
-        background-color: black;
-        color: white;
-        font-family: Arial, sans-serif;
-        width: 700px;
-        margin: 50px auto;
-        text-align: center;
-    }
+        input {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+        }
 
-    h1 {
-        margin-bottom: 20px;
-    }
-
-    input {
-        width: 70%;
-        padding: 10px;
-        font-size: 16px;
-    }
-
-    button {
-        padding: 10px 15px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-</style>
-```
-
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
 
-```
-<h1>Hari Chatbot</h1>
+<h1>Chatbot</h1>
 
 <p>Ask a question and listen to the answer.</p>
 
@@ -51,23 +38,33 @@
     <button type="submit">Ask</button>
 </form>
 
+<p id="botAnswer"></p>
+
+<p><b>You:</b> {{ question }}</p>
+
 {% if answer %}
 <script>
-    window.onload = function () {
+window.onload = function () {
 
-        window.speechSynthesis.cancel();
+    window.speechSynthesis.cancel();
 
-        let speech = new SpeechSynthesisUtterance("{{ answer }}");
+    let answerText = "{{ answer }}";
 
-        speech.rate = 1;
-        speech.pitch = 1;
-        speech.volume = 1;
+    // 1️⃣ SPEAK FIRST
+    let speech = new SpeechSynthesisUtterance(answerText);
+    speech.rate = 1;
+    speech.pitch = 1;
+    speech.volume = 1;
 
-        window.speechSynthesis.speak(speech);
-    };
+    window.speechSynthesis.speak(speech);
+
+    // 2️⃣ SHOW TEXT AFTER 2 SECONDS
+    setTimeout(function () {
+        document.getElementById("botAnswer").innerText = answerText;
+    }, 15000);
+};
 </script>
 {% endif %}
-```
 
 </body>
 </html>
