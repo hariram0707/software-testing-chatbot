@@ -2,78 +2,72 @@
 <html>
 <head>
     <title>Hari Chatbot</title>
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            width: 700px;
-            margin: 50px auto;
-            text-align: center;
-        }
+    <!DOCTYPE html>
 
-        input {
-            width: 70%;
-            padding: 10px;
-        }
+<html>
+<head>
+    <title>Hari Chatbot</title>
 
-        button {
-            padding: 10px 15px;
-            cursor: pointer;
-        }
+```
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-family: Arial, sans-serif;
+        width: 700px;
+        margin: 50px auto;
+        text-align: center;
+    }
 
-        .answer {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #555;
-            text-align: left;
-        }
+    h1 {
+        margin-bottom: 20px;
+    }
 
-        .speak-btn {
-            margin-top: 10px;
-        }
-    </style>
+    input {
+        width: 70%;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+```
+
 </head>
+
 <body>
 
-    <h1>Hari Chatbot</h1>
+```
+<h1>Hari Chatbot</h1>
 
-    <p>How can I help you?</p>
+<p>Ask a question and listen to the answer.</p>
 
-    <form method="POST">
-        <input type="text" name="question" placeholder="Ask anything" required>
-        <button type="submit">Ask</button>
-    </form>
+<form method="POST">
+    <input type="text" name="question" placeholder="Ask anything" required>
+    <button type="submit">Ask</button>
+</form>
 
-    {% if answer %}
-    <div class="answer">
-        <strong>Answer:</strong><br><br>
+{% if answer %}
+<script>
+    window.onload = function () {
 
-        <span id="botAnswer">{{ answer }}</span>
+        window.speechSynthesis.cancel();
 
-        <br><br>
+        let speech = new SpeechSynthesisUtterance("{{ answer }}");
 
-        <button class="speak-btn" onclick="speakAnswer()">
-    🔊 Listen
-</button>
-    </div>
-    {% endif %}
+        speech.rate = 1;
+        speech.pitch = 1;
+        speech.volume = 1;
 
-    <script>
-function speakAnswer() {
-
-    // Stop any speech currently playing
-    window.speechSynthesis.cancel();
-
-    let text = document.getElementById("botAnswer").innerText;
-
-    let speech = new SpeechSynthesisUtterance(text);
-
-    speech.rate = 1;
-    speech.pitch = 1;
-    speech.volume = 1;
-
-    window.speechSynthesis.speak(speech);
-}
+        window.speechSynthesis.speak(speech);
+    };
 </script>
-</body></html>
+{% endif %}
+```
+
+</body>
+</html>
