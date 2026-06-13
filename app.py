@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from PyPDF2 import PdfReader
 import os
 
 app = Flask(__name__)
@@ -56,20 +57,25 @@ def home():
     question = ""
 
     if request.method == "POST":
-        question = request.form["question"].lower().strip()
 
-        answer = responses.get(
-            question,
-            "Sorry, I don't know the answer to that question."
-        )
+        uploaded_file = request.files.get("pdf_file")
+
+        if uploaded_file and uploaded_file.filename.endswith(".pdf"):
+            answer = "PDF uploaded successfully."
+
+        else:
+            question = request.form["question"].lower().strip()
+
+            answer = responses.get(
+                question,
+                "Sorry, I don't know the answer to that question."
+            )
 
     return render_template(
         "index.html",
         answer=answer,
         question=question
     )
-
-
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)

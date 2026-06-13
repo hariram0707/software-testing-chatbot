@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chatbot</title>
+    <title>Interactive Software Testing Chatbot</title>
 
     <style>
         body {
@@ -13,58 +13,261 @@
             text-align: center;
         }
 
-        input {
-            width: 70%;
+        input, button {
             padding: 10px;
+            margin: 5px;
             font-size: 16px;
         }
 
-        button {
-            padding: 10px 15px;
-            font-size: 16px;
-            cursor: pointer;
+        #roadmap, #quiz {
+            margin-top: 20px;
         }
     </style>
 </head>
 
 <body>
 
-<h1>Chatbot</h1>
+<h1>Interactive Software Testing Chatbot</h1>
 
 <p>Ask a question and listen to the answer.</p>
 
-<form method="POST">
-    <input type="text" name="question" placeholder="Ask anything" required>
+<button type="button" onclick="toggleTheme()">🌙 Dark/Light Mode</button>
+
+<button type="button" onclick="clearChat()">🗑 Clear Chat</button>
+
+<button type="button" onclick="showRoadmap()">📚 Learning Path</button>
+
+<button type="button" onclick="startQuiz()">📝 Quiz Mode</button>
+
+<br><br>
+
+<form method="POST" enctype="multipart/form-data">
+
+    <input type="file" name="pdf_file" accept=".pdf">
+
+    <br><br>
+
+    <input type="text"
+           name="question"
+           placeholder="Ask anything"
+           required>
+
     <button type="submit">Ask</button>
+
 </form>
 
-<p id="botAnswer"></p>
+<br>
 
 <p><b>You:</b> {{ question }}</p>
 
+<p id="botAnswer"></p>
+
+<div id="roadmap"></div>
+
+<div id="quiz"></div>
+
 {% if answer %}
 <script>
-window.onload = function () {
-
-    window.speechSynthesis.cancel();
+window.onload = function() {
 
     let answerText = "{{ answer }}";
 
-    // 1️⃣ SPEAK FIRST
+    window.speechSynthesis.cancel();
+
     let speech = new SpeechSynthesisUtterance(answerText);
+
     speech.rate = 1;
     speech.pitch = 1;
     speech.volume = 1;
 
     window.speechSynthesis.speak(speech);
 
-    // 2️⃣ SHOW TEXT AFTER 2 SECONDS
-    setTimeout(function () {
+    setTimeout(function() {
         document.getElementById("botAnswer").innerText = answerText;
     }, 15000);
+
 };
 </script>
 {% endif %}
+
+<script>
+
+function toggleTheme() {
+
+    if (document.body.style.backgroundColor === "white") {
+
+        document.body.style.backgroundColor = "black";
+        document.body.style.color = "white";
+
+    } else {
+
+        document.body.style.backgroundColor = "white";
+        document.body.style.color = "black";
+
+    }
+}
+
+function clearChat() {
+
+    document.getElementById("botAnswer").innerText = "";
+
+}
+
+function showRoadmap() {
+
+    document.getElementById("roadmap").innerHTML = `
+        <h3>Software Testing Roadmap</h3>
+        <p>1. Software Testing</p>
+        <p>2. Manual Testing</p>
+        <p>3. Test Cases</p>
+        <p>4. Bug Life Cycle</p>
+        <p>5. Selenium</p>
+        <p>6. API Testing</p>
+    `;
+}
+
+function startQuiz() {
+
+document.getElementById("quiz").innerHTML = `
+
+<h3>Software Testing Quiz</h3>
+
+<p>Q1. What is Manual Testing?</p>
+<input type="radio" name="q1" value="A"> Testing without tools<br>
+<input type="radio" name="q1" value="B"> Testing with Selenium<br>
+<input type="radio" name="q1" value="C"> Performance Testing<br><br>
+
+<p>Q2. What is Selenium?</p>
+<input type="radio" name="q2" value="A"> Database Tool<br>
+<input type="radio" name="q2" value="B"> Automation Testing Tool<br>
+<input type="radio" name="q2" value="C"> Operating System<br><br>
+
+<p>Q3. What is Smoke Testing?</p>
+<input type="radio" name="q3" value="A"> Initial Build Testing<br>
+<input type="radio" name="q3" value="B"> Security Testing<br>
+<input type="radio" name="q3" value="C"> Load Testing<br><br>
+
+<p>Q4. What is Regression Testing?</p>
+<input type="radio" name="q4" value="A"> Re-testing old features<br>
+<input type="radio" name="q4" value="B"> Database Testing<br>
+<input type="radio" name="q4" value="C"> UI Design<br><br>
+
+<p>Q5. What is Black Box Testing?</p>
+<input type="radio" name="q5" value="A"> Testing source code<br>
+<input type="radio" name="q5" value="B"> Testing functionality without seeing code<br>
+<input type="radio" name="q5" value="C"> Performance Testing<br><br>
+
+<p>Q6. What is White Box Testing?</p>
+<input type="radio" name="q6" value="A"> Testing internal code<br>
+<input type="radio" name="q6" value="B"> Testing UI only<br>
+<input type="radio" name="q6" value="C"> Security Testing<br><br>
+
+<p>Q7. What is a Bug?</p>
+<input type="radio" name="q7" value="A"> New Feature<br>
+<input type="radio" name="q7" value="B"> Software Error<br>
+<input type="radio" name="q7" value="C"> Test Case<br><br>
+
+<p>Q8. What is Load Testing?</p>
+<input type="radio" name="q8" value="A"> Testing expected user traffic<br>
+<input type="radio" name="q8" value="B"> UI Testing<br>
+<input type="radio" name="q8" value="C"> Unit Testing<br><br>
+
+<p>Q9. What is Stress Testing?</p>
+<input type="radio" name="q9" value="A"> Extreme Load Testing<br>
+<input type="radio" name="q9" value="B"> Database Testing<br>
+<input type="radio" name="q9" value="C"> Smoke Testing<br><br>
+
+<p>Q10. What is Unit Testing?</p>
+<input type="radio" name="q10" value="A"> Testing Complete System<br>
+<input type="radio" name="q10" value="B"> Testing Individual Components<br>
+<input type="radio" name="q10" value="C"> Performance Testing<br><br>
+
+<button onclick="checkQuiz()">Submit Quiz</button>
+
+<p id="score"></p>
+
+`;
+}
+function checkQuiz() {
+
+let score = 0;
+let result = "";
+
+if(document.querySelector('input[name="q1"]:checked')?.value=="A"){
+    score++;
+    result += "Q1 ✅ Correct<br>";
+}else{
+    result += "Q1 ❌ Wrong (Correct Answer: Testing without tools)<br>";
+}
+
+if(document.querySelector('input[name="q2"]:checked')?.value=="B"){
+    score++;
+    result += "Q2 ✅ Correct<br>";
+}else{
+    result += "Q2 ❌ Wrong (Correct Answer: Automation Testing Tool)<br>";
+}
+
+if(document.querySelector('input[name="q3"]:checked')?.value=="A"){
+    score++;
+    result += "Q3 ✅ Correct<br>";
+}else{
+    result += "Q3 ❌ Wrong (Correct Answer: Initial Build Testing)<br>";
+}
+
+if(document.querySelector('input[name="q4"]:checked')?.value=="A"){
+    score++;
+    result += "Q4 ✅ Correct<br>";
+}else{
+    result += "Q4 ❌ Wrong (Correct Answer: Re-testing old features)<br>";
+}
+
+if(document.querySelector('input[name="q5"]:checked')?.value=="B"){
+    score++;
+    result += "Q5 ✅ Correct<br>";
+}else{
+    result += "Q5 ❌ Wrong (Correct Answer: Testing functionality without seeing code)<br>";
+}
+
+if(document.querySelector('input[name="q6"]:checked')?.value=="A"){
+    score++;
+    result += "Q6 ✅ Correct<br>";
+}else{
+    result += "Q6 ❌ Wrong (Correct Answer: Testing internal code)<br>";
+}
+
+if(document.querySelector('input[name="q7"]:checked')?.value=="B"){
+    score++;
+    result += "Q7 ✅ Correct<br>";
+}else{
+    result += "Q7 ❌ Wrong (Correct Answer: Software Error)<br>";
+}
+
+if(document.querySelector('input[name="q8"]:checked')?.value=="A"){
+    score++;
+    result += "Q8 ✅ Correct<br>";
+}else{
+    result += "Q8 ❌ Wrong (Correct Answer: Testing expected user traffic)<br>";
+}
+
+if(document.querySelector('input[name="q9"]:checked')?.value=="A"){
+    score++;
+    result += "Q9 ✅ Correct<br>";
+}else{
+    result += "Q9 ❌ Wrong (Correct Answer: Extreme Load Testing)<br>";
+}
+
+if(document.querySelector('input[name="q10"]:checked')?.value=="B"){
+    score++;
+    result += "Q10 ✅ Correct<br>";
+}else{
+    result += "Q10 ❌ Wrong (Correct Answer: Testing Individual Components)<br>";
+}
+
+document.getElementById("score").innerHTML =
+"<h2>Your Score: " + score + "/10</h2><br>" + result;
+
+}
+</script>
 
 </body>
 </html>
